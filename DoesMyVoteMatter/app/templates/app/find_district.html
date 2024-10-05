@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Does My Vote Matter</title>
+    <style>
+        body img:first-of-type {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vote</h1>
+    <img src="https://tinyurl.com/ekk44kw3" alt="Vote Image" width="300">
+
+    <body>
+        <h1>Enter District Number</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+            {% if district %}
+                <h2>District Details:</h2>
+                <p><strong>Name:</strong> {{ district.name }}</p>
+                <p><strong>District Number:</strong> {{ district.district }}</p>
+                <p><strong>Area:</strong> {{ district.area }}</p>
+                <p><strong>Perimeter:</strong> {{ district.perimeter }}</p>
+                <p><strong>Congress:</strong> {{ district.congress }}</p>
+                <p><strong>Party:</strong> {{ district.party }}</p>
+            {% endif %}
+    </body>
+</body>
+</html>
