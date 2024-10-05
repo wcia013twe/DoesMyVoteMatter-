@@ -1,0 +1,15 @@
+﻿OBJECTID,District,RepPageUrl,Name,Party,Congress,Shape__Area,Shape__Length
+1,1,https://dondavis.house.gov/,Don Davis,Democratic,118th,33617338514.2891,1034397.00652036
+2,10,https://mchenry.house.gov/,Patrick McHenry,Republican,118th,11782515372.5625,658099.857135496
+3,11,https://edwards.house.gov/,Chuck Edwards,Republican,118th,24356525240.543,990121.116523474
+4,12,https://adams.house.gov/,Alma Adams,Democratic,118th,1795872424.88281,245644.980544231
+5,13,https://nickel.house.gov/,Wiley Nickel,Democratic,118th,7244519110.15625,554296.360057463
+6,14,https://jeffjackson.house.gov/,Jeff Jackson,Democratic,118th,1910857061.48438,313970.269838726
+7,2,https://ross.house.gov/,Deborah Ross,Democratic,118th,2005861893.70703,279148.393135786
+8,3,https://gregmurphy.house.gov/,Greg Murphy,Republican,118th,44459118569.1973,1679838.89826929
+9,4,https://foushee.house.gov/,Valerie Foushee,Democratic,118th,8319375814.03516,470247.02834192
+10,5,https://foxx.house.gov/,Virginia Foxx,Republican,118th,18191881322.6367,1004652.20947782
+11,6,https://manning.house.gov/,Kathy Manning,Democratic,118th,6962272354.23828,454487.976507691
+12,7,https://rouzer.house.gov/,David Rouzer,Republican,118th,21316704086.1133,870295.918897938
+13,8,https://danbishop.house.gov/,Dan Bishop,Republican,118th,14606590845.7148,747077.977569879
+14,9,https://hudson.house.gov/,Richard Hudson,Republican,118th,14372495585.1953,765845.614721824
