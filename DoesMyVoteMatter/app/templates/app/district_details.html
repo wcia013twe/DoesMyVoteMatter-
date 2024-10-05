@@ -1,1 +1,19 @@
-<h1>Hey</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District Details</title>
+</head>
+<body>
+    <h1>District Details</h1>
+    <h2>{{ district.name }}</h2>
+    <ul>
+        <li>District Number: {{ district.district }}</li>
+        <li>Area: {{ district.area }} sq km</li>
+        <li>Perimeter: {{ district.perimeter }} km</li>
+        <li>Congress: {{ district.congress }}</li>
+        <li>Party: {{ district.get_party_display }}</li>
+    </ul>
+</body>
+</html>

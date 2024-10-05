@@ -1,4 +1,6 @@
 from django import forms
+from .models import State  # Import the State model
 
 class DistrictForm(forms.Form):
-    district_number = forms.IntegerField(label="Enter an integer", min_value=1)  # You can set min_value and max_value as needed
+    state = forms.ModelChoiceField(queryset=State.objects.all(), label="Select a state")
+    district_number = forms.IntegerField(label="Enter District Number", min_value=1)
