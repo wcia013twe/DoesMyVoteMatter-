@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>District Information Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Merriweather, sans-serif;
             line-height: 1.6;
             background-color: #082449;
         }
@@ -19,20 +20,37 @@
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #f9f9f9;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);)
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
         }
 
         .gerrymander-message {
             text-align: center;
             font-weight: bold;
-            font-size: 1.5em;
+            font-size: 1.4em;
             margin-bottom: 20px;
             transition: color 0.3s ease;
         }
 
         .header {
             margin-top: 10px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .header .righthead{
+            text-align: right;
+        }
+
+        .header h1{
+            color: blue;  
+            font-size: 2rem;  
+        }
+        .header h2{
+            font-size: 1.2rem;
+        }
+        .header h3{
+            font-size: 1.1rem;
         }
 
         .compactness-score,
@@ -78,9 +96,11 @@
         }
 
         .more-info-button {
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
             display: block;
             margin: 20px auto;
-            padding: 10px 20px;
+            padding: 14px 26px;
             background-color: #007BFF;
             color: white;
             border: none;
@@ -144,10 +164,15 @@
     <div class="report-container">
         <!-- State and Congressional District -->
         <div class="header">
+            <div class="lefthead">
             <h1>State: {{STATE}}</h1>
+            </div>
+            <div class="righthead">
             <h2>Congressional District: #{{DISTRICT_NUMBER}}</h2>
-            <h3>Representative: {{district.name}}</h3>
+            <h3>{{district.name}}</h3>
+            </div>
         </div>
+        <hr>
 
         <!-- Gerrymandering Message -->
         <div id="gerrymanderMessage" class="gerrymander-message">Loading...</div>
@@ -175,6 +200,7 @@
             <h4>Efficiency Gap: {{efficiency_gap}}</h4>
         </div>
 
+        <hr>
         <!-- More Information Button -->
         <button class="more-info-button" onclick="toggleMoreInfo()">More Information</button>
         <div class="more-info-container" id="moreInfoContainer">
