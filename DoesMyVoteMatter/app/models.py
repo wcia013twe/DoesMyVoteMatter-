@@ -18,10 +18,14 @@ class District(models.Model):
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     district = models.IntegerField() 
-    area = models.IntegerField()
-    perimeter = models.IntegerField()
+    republican_votes = models.IntegerField()
+    democratic_votes = models.IntegerField()
+    area = models.FloatField()
+    perimeter = models.FloatField()
     congress = models.IntegerField()
     party = models.CharField(max_length=1, default="", choices=PARTY)
     
+    
     def district_name(self):
         return self.name
+

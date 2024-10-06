@@ -17,3 +17,60 @@
     </ul>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District Information Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Merriweather, sans-serif;
+            background-color: #CCC;
+        }
+
+        .report-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #FFF;
+            box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.5);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header .right-head {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="report-container">
+        <div class="header">
+            <div class='left-head'>
+                <h1 class="state">{{state.name}}</h1>
+                <h2 class="district">Congressional District {{district.district}}</h2>
+            </div>
+            <div class='right-head'>
+                <h3 class='contact email'>glabin@gmail.com</h3>
+                <h3 class='contact phone'>407-555-5555</h3>
+                <h3 class='contact address'>123 Main St, Orlando, FL 32801</h3>
+            </div>
+        </div>
+        <hr>
+        <div class=report>
+            <h2 class="report-title">District Analysis Report:</h2>
+        </div>
+</body>
+
+</html>

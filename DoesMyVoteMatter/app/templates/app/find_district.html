@@ -1,36 +1,144 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Does My Vote Matter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
     <style>
-        body img:first-of-type {
-            display: block;
-            margin: 0 auto;
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url("{% static 'app/images/wavyflag.jpg' %}");
+            background-size: cover; 
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;  /* Adjust text color to ensure readability on the background */
         }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7 );  /* Black overlay with 50% opacity */
+            z-index: -1;  /* Ensure the overlay is behind the content */
+        }
+
+        h1 {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 4.5rem;
+            text-align: center;
+            color: #FFF;
+            margin-bottom: .5rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            color: #FFF;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .info-text {
+            font-size: 1.1rem;
+            color: #FFF;
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 1rem;
+        }
+
+        /* Form Styles */
+        form {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        
+        /* Form Input Fields */
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        form label {
+            font-weight: bold;
+            font-size: 1.1rem;  /* Slightly larger font size for better readability */
+            color: #333;        /* Darker color for contrast */
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        form {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }        
     </style>
 </head>
 <body>
-    <h1>Vote</h1>
-    <img src="https://tinyurl.com/ekk44kw3" alt="Vote Image" width="300">
-
+    <h1>Does My Vote Matter?</h1>
     <body>
-        <h1>Enter District Number</h1>
+        <p class="info-text">
+            Gerrymandering is the practice of manipulating the boundaries of an electoral district 
+            to favor a particular political party or group. This tool helps you check if your district's 
+            boundaries might have been unfairly drawn, giving you insights into how gerrymandering could affect your vote.
+        </p>
+        <h2>Select State and Enter District Number</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Submit</button>
         </form>
-            {% if district %}
-                <h2>District Details:</h2>
-                <p><strong>Name:</strong> {{ district.name }}</p>
-                <p><strong>District Number:</strong> {{ district.district }}</p>
-                <p><strong>Area:</strong> {{ district.area }}</p>
-                <p><strong>Perimeter:</strong> {{ district.perimeter }}</p>
-                <p><strong>Congress:</strong> {{ district.congress }}</p>
-                <p><strong>Party:</strong> {{ district.party }}</p>
-            {% endif %}
     </body>
 </body>
 </html>

@@ -20,9 +20,7 @@ def calculate_efficiencygap(dem, rep):
 def Schwartzberg(Perimeter, Area):
     c = 2 * math.pi * math.sqrt((Area / math.pi))
     score = 1 / (Perimeter / c)
-    return score
-
-import math
+    return round(score, 5)
 
 def polsby_Popper(area,perimeter):
     """A district's Polsby Popper(PP) score falls within the range of [0,1] and a score closer to 1 indicates a more compact district.
@@ -37,7 +35,7 @@ def polsby_Popper(area,perimeter):
     
     if perimeter <=0:
         raise ValueError("Perimeter must be greater than zero")
-    return(4 * math.pi * area) / (perimeter ** 2)
+    return round((4 * math.pi * area) / (perimeter ** 2), 5)
 
 def reock(area, perimeter):
     """A district's Reock score falls within the range of [0,1] and a score closer to 1 indicates a more compact district.
@@ -52,4 +50,4 @@ def reock(area, perimeter):
     
     if perimeter <=0:
         raise ValueError("Perimeter must be greater than zero")
-    return area / (math.pi * ((perimeter / (2 * math.pi)) ** 2))
+    return round(area / (math.pi * ((perimeter / (2 * math.pi)) ** 2)), 5)
