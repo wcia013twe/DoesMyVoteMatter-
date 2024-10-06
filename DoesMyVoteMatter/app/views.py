@@ -23,11 +23,15 @@ def district_details(request, state_abbreviation, district_number):
     state = get_object_or_404(State, abbreviation=state_abbreviation)
     # Get the district object that belongs to the state and has the district number
     district = get_object_or_404(District, state=state, district=district_number)
-    eg = calculate_efficiencygap(district.democratic_votes, district.republican_votes)
-    swhartzberg = Schwartzberg(district.area, district.perimeter)
-    polsby = polsby_Popper(district.area, district.perimeter) 
-    reock_value = reock(district.area, district.perimeter)
-    average_compactness = round((swhartzberg + polsby + reock_value) / 3, 5)
+    eg = round(calculate_efficiencygap(district.democratic_votes, district.republican_votes) * 100, 2)
+    swhartzberg = round(Schwartzberg(district.area, district.perimeter) * 100, 2)
+    polsby = round(polsby_Popper(district.area, district.perimeter)  * 100, 2)
+    reock_value = round(reock(district.area, district.perimeter) * 100, 2)
+    average_compactness = round((swhartzberg + polsby + reock_value) / 3, 2)
+    if district.party == 'D':
+        party = 'Democratic'
+    else:
+        party = 'Republican'
     
     
     context = {
@@ -38,6 +42,7 @@ def district_details(request, state_abbreviation, district_number):
         'polsby': polsby,
         'reock': reock_value,
         'average' : average_compactness,
+        'affiliation': party
     }
 
     return render(request, 'app/district_details.html', context)

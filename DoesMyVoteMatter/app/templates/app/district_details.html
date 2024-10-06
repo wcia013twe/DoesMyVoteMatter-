@@ -1,34 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>District Details</title>
-</head>
-<body>
-    <h1>District Details</h1>
-    <h2>{{ district.name }}</h2>
-    <ul>
-        <li>District Number: {{ district.district }}</li>
-        <li>Area: {{ district.area }} sq km</li>
-        <li>Perimeter: {{ district.perimeter }} km</li>
-        <li>Congress: {{ district.congress }}</li>
-        <li>Party: {{ district.get_party_display }}</li>
-    </ul>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>District Information Report</title>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Merriweather, sans-serif;
-            background-color: #CCC;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #082449;
         }
 
         .report-container {
@@ -37,40 +18,289 @@
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background-color: #FFF;
-            box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.5);
+            background-color: #f9f9f9;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);)
         }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .gerrymander-message {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5em;
             margin-bottom: 20px;
+            transition: color 0.3s ease;
         }
-        .header .right-head {
-            text-align: right;
+
+        .header {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .compactness-score,
+        .efficiency-gap {
+            margin: 20px 0;
+        }
+
+        .slider-container {
+            margin-top: 10px;
+        }
+
+        .slider {
+            width: 100%;
+            height: 15px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(to right, red, green);
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: black;
+            clip-path: polygon(0 100%, 100% 100%, 50% 0);
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: black;
+            clip-path: polygon(0 100%, 100% 100%, 50% 0);
+            cursor: pointer;
+        }
+
+        .more-info-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .more-info-container {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .politician-info {
+            margin-top: 40px;
             display: flex;
-            flex-direction: column;
+            align-items: flex-start;
+            font-size: 0.9em;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .politician-info img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+
+        .contact-info {
+            text-align: left;
+            flex: 1;
+        }
+
+        .high {
+            color: #4CAF50;
+        }
+
+        .moderate {
+            color: #FFA500;
+        }
+
+        .low {
+            color: #FF6347;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
     <div class="report-container">
+        <!-- State and Congressional District -->
         <div class="header">
-            <div class='left-head'>
-                <h1 class="state">{{state.name}}</h1>
-                <h2 class="district">Congressional District {{district.district}}</h2>
-            </div>
-            <div class='right-head'>
-                <h3 class='contact email'>glabin@gmail.com</h3>
-                <h3 class='contact phone'>407-555-5555</h3>
-                <h3 class='contact address'>123 Main St, Orlando, FL 32801</h3>
+            <h1>State: {{STATE}}</h1>
+            <h2>Congressional District: #{{DISTRICT_NUMBER}}</h2>
+            <h3>Representative: {{district.name}}</h3>
+        </div>
+
+        <!-- Gerrymandering Message -->
+        <div id="gerrymanderMessage" class="gerrymander-message">Loading...</div>
+
+        <!-- Compactness Scores -->
+        <div class="compactness-score">
+            <h3>Compactness Score:</h3>
+            <div class="slider-container">
+                <input type="range" min="0" max="100" value="{{COMPACTNESS_SCORE}}" class="slider" id="compactnessSlider">
+                <span id="compactnessValue">{{COMPACTNESS_SCORE}}%</span>
             </div>
         </div>
-        <hr>
-        <div class=report>
-            <h2 class="report-title">District Analysis Report:</h2>
+
+        <!-- Efficiency Gap -->
+        <div class="efficiency-gap">
+            <h3>Efficiency Gap:</h3>
+            <div class="slider-container">
+                <input type="range" min="0" max="100" value="{{EFFICIENCY_GAP}}" class="slider" id="efficiencyGapSlider">
+                <span id="efficiencyGapValue">{{EFFICIENCY_GAP}}%</span>
+            </div>
+            <h4>Schwartzberg: {{schwartzberg}}</h4>
+            <h4>Polsby Popper: {{polsby}}</h4>
+            <h4>Reock: {{reock}}</h4>
+            <h4>Average Compactness: {{average}}</h4>
+            <h4>Efficiency Gap: {{efficiency_gap}}</h4>
         </div>
+
+        <!-- More Information Button -->
+        <button class="more-info-button" onclick="toggleMoreInfo()">More Information</button>
+        <div class="more-info-container" id="moreInfoContainer">
+            <h3>Compactness Score Information:</h3>
+            <p class="high">High Compactness (50-100%): A score closer to 100 suggests a highly compact district, resembling regular shapes. These districts are less likely to be gerrymandered.</p>
+            <p class="moderate">Moderate Compactness (25-50%): Scores in this range may indicate some irregularities, warranting further investigation for potential gerrymandering.</p>
+            <p class="low">Low Compactness (0-30%): A low score suggests highly irregular shapes, potentially indicating intentional gerrymandering.</p>
+
+            <h3>Efficiency Gap Information:</h3>
+            <p class="low">Large Efficiency Gap (> 10%): Suggests possible gerrymandering, with deliberate efforts to dilute voting power.</p>
+            <p class="moderate">Moderate Efficiency Gap (7-10%): Raises concerns that may require further examination but not necessarily gerrymandered.</p>
+            <p class="high">Small Efficiency Gap (<= 7%): Generally considered not indicative of gerrymandering, possibly due to natural trends.</p>
+        </div>
+
+        <!-- Politician Information (Moved to Bottom) -->
+        <div class="politician-info">
+            <img src="{{POLITICIAN_PICTURE_URL}}" style="display:none">
+            <div class="contact-info">
+                <h2>Politician Name: {{POLITICIAN_NAME}}</h2>
+                <p>Email: {{POLITICIAN_EMAIL}}</p>
+                <p>Phone: {{POLITICIAN_PHONE}}</p>
+                <p>Office Address: {{POLITICIAN_ADDRESS}}</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Example data object
+            const data = {
+                STATE: "{{state.name}}",
+                DISTRICT_NUMBER: "{{district.district}}",
+                POLITICIAN_NAME: "{{district.name}}",
+                POLITICIAN_PICTURE_URL: "https://example.com/jane_doe.jpg",
+                POLITICIAN_EMAIL: "jane.doe@example.com",
+                POLITICIAN_PHONE: "(555) 123-4567",
+                POLITICIAN_ADDRESS: "123 Main St, Orlando, FL 32801",
+                COMPACTNESS_SCORE: "{{average}}",
+                EFFICIENCY_GAP: "{{efficiency_gap}}",
+                POPULATION: "700,000",
+                ETHNIC_BREAKDOWN: {
+                    Hispanic: 40,
+                    Caucasian: 35,
+                    "African-American": 15,
+                    Asian: 10
+                },
+                PARTY: "{{affiliation}}"
+            };
+
+            // Populate State and District Info
+            document.querySelector('.header h1').innerText = `${data.STATE}`;
+            document.querySelector('.header h2').innerText = `Congressional District ${data.DISTRICT_NUMBER}`;
+
+            // Gerrymandering Message
+            const gerrymanderMessageElement = document.getElementById('gerrymanderMessage');
+
+            // Function to update the gerrymandering message based on average score
+            function updateMessage(compactnessScore, efficiencyGap) {
+                const averageScore = (parseInt(compactnessScore) + parseInt(efficiencyGap)) / 2;
+
+                if (averageScore >= 50) {
+                    gerrymanderMessageElement.innerText = "It is unlikely your state is being gerrymandered. Your vote matters!";
+                    gerrymanderMessageElement.style.color = "#4CAF50";
+                } else if (averageScore >= 25 && averageScore < 50) {
+                    gerrymanderMessageElement.innerText = "Gerrymandering is possible in your state. Be aware of district lines!";
+                    gerrymanderMessageElement.style.color = "#FFA500";
+                } else {
+                    gerrymanderMessageElement.innerText = "Your state is likely gerrymandered. Your vote may be affected!";
+                    gerrymanderMessageElement.style.color = "#FF6347";
+                }
+            }
+
+            // Initial message update
+            updateMessage(data.COMPACTNESS_SCORE, data.EFFICIENCY_GAP);
+
+            // Populate Politician Info
+            document.querySelector('.politician-info img').src = data.POLITICIAN_PICTURE_URL;
+            document.querySelector('.politician-info h2').innerText = `Politician Name: ${data.POLITICIAN_NAME}`;
+
+            // Populate Contact Info
+            const contactInfoHtml = `
+                <p>Email: ${data.POLITICIAN_EMAIL}</p>
+                <p>Phone: ${data.POLITICIAN_PHONE}</p>
+                <p>Office Address: ${data.POLITICIAN_ADDRESS}</p>
+            `;
+            document.querySelector('.contact-info').innerHTML = contactInfoHtml;
+
+            // Compactness Score Slider and Event Listener
+            const compactnessSlider = document.getElementById('compactnessSlider');
+            const compactnessValueElement = document.getElementById('compactnessValue');
+
+            compactnessSlider.value = data.COMPACTNESS_SCORE;
+            compactnessValueElement.innerText = `${data.COMPACTNESS_SCORE}%`;
+
+            // Efficiency Gap Slider and Event Listener
+            const efficiencyGapSlider = document.getElementById('efficiencyGapSlider');
+            const efficiencyGapValueElement = document.getElementById('efficiencyGapValue');
+
+            efficiencyGapSlider.value = data.EFFICIENCY_GAP;
+            efficiencyGapValueElement.innerText = `${data.EFFICIENCY_GAP}%`;
+
+            // Event listeners for updating the sliders and the gerrymandering message based on average score
+            compactnessSlider.addEventListener('input', function() {
+                const compactnessScore = compactnessSlider.value;
+                compactnessValueElement.innerText = `${compactnessScore}%`;
+                updateMessage(compactnessScore, efficiencyGapSlider.value);
+            });
+
+            efficiencyGapSlider.addEventListener('input', function() {
+                const efficiencyGap = efficiencyGapSlider.value;
+                efficiencyGapValueElement.innerText = `${efficiencyGap}%`;
+                updateMessage(compactnessSlider.value, efficiencyGap);
+            });
+
+        });
+
+        // Function to toggle more information section
+        function toggleMoreInfo() {
+            const moreInfoContainer = document.getElementById('moreInfoContainer');
+            if (moreInfoContainer.style.display === "none" || moreInfoContainer.style.display === "") {
+                moreInfoContainer.style.display = "block";
+            } else {
+                moreInfoContainer.style.display = "none";
+            }
+        }
+    </script>
 </body>
 
 </html>

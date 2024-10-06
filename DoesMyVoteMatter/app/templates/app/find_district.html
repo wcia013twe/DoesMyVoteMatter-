@@ -123,6 +123,11 @@
                 transform: translateY(0);
             }
         }        
+
+        #census-link {
+            color: #007bff;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -133,7 +138,7 @@
             to favor a particular political party or group. This tool helps you check if your district's 
             boundaries might have been unfairly drawn, giving you insights into how gerrymandering could affect your vote.
         </p>
-        <h2>Select State and Enter District Number</h2>
+        <h2>Select State and Enter <a id="census-link" href="https://www.census.gov/mycd/">District Number</a></h2>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}

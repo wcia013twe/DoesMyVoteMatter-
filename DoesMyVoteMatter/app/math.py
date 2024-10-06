@@ -9,15 +9,15 @@ def calculate_efficiencygap(dem, rep):
     if dem > rep:
         dem_waste = dem - threshold
         rep_waste = rep
-        eg = (rep_waste - dem_waste) / total
+        eg = abs((rep_waste - dem_waste)) / total
     else:
         dem_waste = dem
         rep_waste = rep - threshold
-        eg = (dem_waste - rep_waste) / total
+        eg = abs((dem_waste - rep_waste)) / total
         
-    return round(eg, 10)
+    return round(eg, 5)
 
-def Schwartzberg(Perimeter, Area):
+def Schwartzberg(Area, Perimeter):
     c = 2 * math.pi * math.sqrt((Area / math.pi))
     score = 1 / (Perimeter / c)
     return round(score, 5)
